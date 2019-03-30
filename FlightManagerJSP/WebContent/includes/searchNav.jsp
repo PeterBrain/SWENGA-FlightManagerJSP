@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
-		<form class="navbar-form navbar-right" role="search" method="post" action="searchEmployees">
+		<form class="navbar-form navbar-right" role="search" method="post" action="searchFlights">
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Search for..." name="searchString">
 				<span class="input-group-btn">

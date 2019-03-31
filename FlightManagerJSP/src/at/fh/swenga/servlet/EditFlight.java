@@ -39,16 +39,16 @@ public class EditFlight extends HttpServlet {
 		 
 		int flightId = Integer.parseInt(flightIdString);
  
-		// get the http session object for the user
 		HttpSession session = request.getSession(true);
  
-		// get the flightService out of the session
 		FlightService flightService = (FlightService) session.getAttribute("flightService");
  
 		if (flightService != null) {
 			FlightModel flightModel = flightService.getFlightByFlightId(flightId);
+			
 			if (flightModel != null) {
 				request.setAttribute("flight", flightModel);
+				
 				RequestDispatcher rd = request.getRequestDispatcher("./editFlight.jsp");
 				rd.forward(request, response);
 				return;
@@ -56,6 +56,7 @@ public class EditFlight extends HttpServlet {
 		}
  
 		request.setAttribute("errorMessage", "No flight with flightId " + flightId);
+		
 		RequestDispatcher rd = request.getRequestDispatcher("./listFlights");
 		rd.forward(request, response);
 		return;

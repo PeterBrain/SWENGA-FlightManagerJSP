@@ -37,13 +37,10 @@ public class ChangeFlight extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		// get the http session object for the user
 		HttpSession session = request.getSession(true);
  
-		// get the flightService out of the session
 		FlightService flightService = (FlightService) session.getAttribute("flightService");
  
-		// get all form data out of the request
 		String flightIdString = request.getParameter("flightId");
 		String aircraft = request.getParameter("aircraft");
 		String origin = request.getParameter("origin");
@@ -54,12 +51,10 @@ public class ChangeFlight extends HttpServlet {
 		String airline = request.getParameter("airline");
 		String isCancelledString = request.getParameter("isCancelled");
  
-		// provide a String to collect all error messages
 		String errorMessage = "";
 		boolean errorOccurred = false;
  
-		// ---- Convert flightId ----
-		// if flightId is not a number -> add an error text to the error message
+		// convert flightId
 		int flightId = 0;
 		try {
 			flightId = Integer.parseInt(flightIdString);
@@ -68,8 +63,7 @@ public class ChangeFlight extends HttpServlet {
 			errorOccurred = true;
 		}
 		
-		// ---- Convert numberOfPassengers ----
-		// if flightId is not a number -> add an error text to the error message
+		// convert numberOfPassengers
 		int numberOfPassengers = 0;
 		try {
 			numberOfPassengers = Integer.parseInt(numberOfPassengersString);
@@ -77,9 +71,28 @@ public class ChangeFlight extends HttpServlet {
 			errorMessage += "Number of passengers invalid<br>";
 			errorOccurred = true;
 		}
+ 
+		// convert departure
+		Date departure = new Date();
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+			departure = sdf.parse(departureString);
+		} catch (Exception e) {
+			errorMessage += "Departure invalid<br>";
+			errorOccurred = true;
+		}
 		
-		// ---- Convert isCancelled ----
-		// if flightId is not a number -> add an error text to the error message
+		// convert arrival
+		Date arrival = new Date();
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+			arrival = sdf.parse(arrivalString);
+		} catch (Exception e) {
+			errorMessage += "Arrival invalid<br>";
+			errorOccurred = true;
+		}
+		
+		// convert isCancelled
 		boolean isCancelled = false;
 		try {
 			isCancelled = Boolean.parseBoolean(isCancelledString);
@@ -88,57 +101,34 @@ public class ChangeFlight extends HttpServlet {
 			errorOccurred = true;
 		}
  
-		// ---- Convert departure -----
-		// For date<->String conversion, Java provides the SimpleDateFormat class
-		// if it is not a date-> add an error text to the error message
-		Date departure = new Date();
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-			departure = sdf.parse(departureString);
-		} catch (Exception e) {
-			errorMessage += "Departure invalid<br>";
-			errorOccurred = true;
-		}
-		
-		// ---- Convert arrival -----
-		// For date<->String conversion, Java provides the SimpleDateFormat class
-		// if it is not a date-> add an error text to the error message
-		Date arrival = new Date();
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-			arrival = sdf.parse(arrivalString);
-		} catch (Exception e) {
-			errorMessage += "Arrival invalid<br>";
-			errorOccurred = true;
-		}
- 
-		// Data Conversion ok? -> Change Flight
-		if (!errorOccurred) { // same as: if (errorOccurred == false)
+		// data conversion successful
+		if (!errorOccurred) {
 			FlightModel flight = flightService.getFlightByFlightId(flightId);
  
 			if (flight == null) {
 				errorMessage += "Flight doesn't exist!<br>";
 				errorOccurred = true;
-			} else { 
-				// overwrite data in the existing flight object
-				flight.setAircraft(aircraft);
-				flight.setOrigin(origin);
-				flight.setDestination(destination);
-				flight.setDeparture(departure);
-				flight.setArrival(arrival);
-				flight.setNumberOfPassengers(numberOfPassengers);
-				flight.setAirline(airline);
-				flight.setCancelled(isCancelled);
+			} else {
+				if (departure.compareTo(arrival) <= 0) {
+					flight.setAircraft(aircraft);
+					flight.setOrigin(origin);
+					flight.setDestination(destination);
+					flight.setDeparture(departure);
+					flight.setArrival(arrival);
+					flight.setNumberOfPassengers(numberOfPassengers);
+					flight.setAirline(airline);
+					flight.setCancelled(isCancelled);
+				} else {
+					errorMessage += "Arrival before departure? - You wish, that's not possible!<br>";
+					errorOccurred = true;
+				}
 			}
 		}
  
-		// --- Create a message for the JSP
- 
-		if (!errorOccurred) { // same as: if (errorOccurred == false)
-			// No error? Then put a message on the page that an flight has changed
+		// create a message for the JSP
+		if (!errorOccurred) {
 			request.setAttribute("message", "Flight " + flightId + " changed.");
 		} else {
-			// Errors happened? -> put all collected error messages in the request for the JSP
 			request.setAttribute("errorMessage", errorMessage);
 		}
  

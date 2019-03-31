@@ -80,7 +80,7 @@ public class FlightService {
 			return flights;
 		}
  
-		// List for results
+		// new list for results
 		List<FlightModel> filteredList = new ArrayList<FlightModel>();
  
 		// check every flight
@@ -99,7 +99,7 @@ public class FlightService {
 	}
  
 	/**
-	 * TRICKY: remove flights with same flightId
+	 * remove flights with same flightId
 	 * 
 	 * @param flightId
 	 * @return

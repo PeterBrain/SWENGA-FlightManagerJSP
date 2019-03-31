@@ -35,11 +35,9 @@ public class FillFlightList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		// get the http session object for the user
+
 		HttpSession session = request.getSession(true);
 		
-		// get the flightService out of the session
 		FlightService flightService = (FlightService) session.getAttribute("flightService");
 		if (flightService == null) {
 			flightService = new FlightService();
@@ -48,14 +46,14 @@ public class FillFlightList extends HttpServlet {
 		
 		Date now = new Date();
 		
-		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 737", "Deutschland", "Spanien", now, now, 100, "Lufthansa", false));
-		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 767", "Deutschland", "Spanien", now, now, 100, "Swiss", true));
-		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 777", "Deutschland", "Spanien", now, now, 100, "Eurowings", false));
-		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Airbus A380", "Deutschland", "Spanien", now, now, 100, "Emirates", false));
-		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 737", "Deutschland", "Spanien", now, now, 100, "Austrian Airlines", false));
-		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 737", "Deutschland", "Spanien", now, now, 100, "Lauda Motion", true));
-		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 737", "Deutschland", "Spanien", now, now, 100, "Default", false));
-		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 737", "Deutschland", "Spanien", now, now, 100, "Default", false));
+		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 737", "Germany", "Spanien", now, now, 148, "Lufthansa", false));
+		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 767", "Austria", "Belgium", now, now, 72, "Austrian", true));
+		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 777", "France", "Portugal", now, now, 65, "Eurowings", false));
+		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Airbus A380", "Germany", "Thailand", now, now, 225, "Emirates", false));
+		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 767", "Switzerland", "Germany", now, now, 103, "Swiss", false));
+		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Airbus A320", "Spain", "Portugal", now, now, 62, "Iberia", true));
+		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 747", "France", "Sweden", now, now, 98, "Norwegian", false));
+		flightService.addFlight(new FlightModel(flightService.getSize() + 1, "Boeing 737", "Sweden", "Spain", now, now, 46, "Iberia", false));
 		
 		RequestDispatcher rd = request.getRequestDispatcher("./listFlights");
 		rd.forward(request, response);

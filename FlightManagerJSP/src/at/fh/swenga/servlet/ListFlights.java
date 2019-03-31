@@ -34,10 +34,8 @@ public class ListFlights extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		// get the http session object for the user
 		HttpSession session = request.getSession(true);
 		
-		// FlightService in the session?
 		FlightService flightService = (FlightService) session.getAttribute("flightService");
 		
 		if (flightService == null) {

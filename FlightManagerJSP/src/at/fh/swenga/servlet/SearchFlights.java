@@ -36,27 +36,24 @@ public class SearchFlights extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		// get the searchstring from the form
 		String searchString = request.getParameter("searchString");
 		
-		// get the http session object for the user
 		HttpSession session = request.getSession(true);
  
-		// FlightService in the session? if not, create a new FlightService and put it into the session
 		FlightService flightService = (FlightService) session.getAttribute("flightService");		
 		if (flightService == null) {
 			flightService = new FlightService();
 			session.setAttribute("flightService", flightService);
 		}
 		
-		// Create a List of flights, where the aircraft, origin, destination or airline contains search string
+		// create a list of flights, where the aircraft, origin, destination or airline contains search string
 		List<FlightModel> filteredFlights = flightService.getFilteredFlights(searchString);
 		
-		// Put it in the request, so index.jsp can show them
 		request.setAttribute("flights", filteredFlights);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("./index.jsp");
 		rd.forward(request, response);
+		return;
 	}
 
 	/**

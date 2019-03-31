@@ -12,7 +12,6 @@ public class FlightModel {
 	private Date arrival;
 	private int numberOfPassengers;
 	private String airline;
-	//private Date duration;
 	private boolean isCancelled;
 	
 	
@@ -32,7 +31,6 @@ public class FlightModel {
 		this.arrival = arrival;
 		this.numberOfPassengers = numberOfPassengers;
 		this.airline = airline;
-		//this.duration = duration;
 		this.isCancelled = isCancelled;
 	}
 
@@ -102,14 +100,6 @@ public class FlightModel {
 		this.airline = airline;
 	}
 
-	/*public Date getDuration() {
-		return duration;
-	}
-
-	public void setDuration(Date duration) {
-		this.duration = duration;
-	}*/
-
 	public boolean getIsCancelled() {
 		return isCancelled;
 	}
@@ -146,8 +136,7 @@ public class FlightModel {
 	public String toString() {
 		return "FlightModel [flightId=" + flightId + ", aircraft=" + aircraft + ", origin=" + origin + ", destination="
 				+ destination + ", departure=" + departure + ", arrival=" + arrival + ", numberOfPassengers="
-				+ numberOfPassengers + ", airline=" + airline /* ", duration=" + duration*/ + ", isCancelled="
-				+ isCancelled + "]";
+				+ numberOfPassengers + ", airline=" + airline + ", isCancelled=" + isCancelled + "]";
 	}
 	
 }

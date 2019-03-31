@@ -5,11 +5,11 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<jsp:include page="includes/bootstrapMeta.jsp" />
-		<title>Flights</title>
-		<jsp:include page="includes/bootstrapCss.jsp" />
-	</head>
+<head>
+	<jsp:include page="includes/bootstrapMeta.jsp" />
+	<title>Flights</title>
+	<jsp:include page="includes/bootstrapCss.jsp" />
+</head>
 <body>
 	<div class="container" role="main">
  
@@ -17,41 +17,39 @@
         	<h1>Flight Management</h1>
       	</div>
  
-		<!--  Error message ----------------------------------------------------------- -->
+		<!-- Error message -->
 		<c:if test="${not empty errorMessage}">
 			<div class="alert alert-danger" role="alert">${errorMessage}</div>
 		</c:if>
-		<!--  Error message ----------------------------------------------------------- -->
+		<!-- Error message -->
  
-		<!--  Warning message ----------------------------------------------------------- -->
+		<!-- Warning message -->
 		<c:if test="${not empty warningMessage}">
 			<div class="alert alert-warning" role="warning">${warningMessage}</div>
 		</c:if>
-		<!--  Warning message ----------------------------------------------------------- -->
+		<!-- Warning message -->
  
-		<!--  successful message ----------------------------------------------------------- -->
+		<!-- Success message -->
 		<c:if test="${not empty message}">
 			<div class="alert alert-success" role="warning">${message}</div>
 		</c:if>
+		<!-- Success message -->
  
- 
-		<!--  Search bar ----------------------------------------------------------- -->
+		<!-- Search bar -->
 		<jsp:include page="includes/searchNav.jsp" />
-		<!--  Search bar ----------------------------------------------------------- -->
+		<!-- Search bar -->
  
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
 				<p>
-					<a href="newFlight.jsp" class="btn btn-success">Add new Flight</a>
-					<a href="fillFlightList" class="btn btn-success">Fill List</a>
+					<a href="newFlight.jsp" class="btn btn-success">Add new flight</a>
+					<a href="fillFlightList" class="btn btn-success">Fill list</a>
 				</p>
 			</div>
 		</div>
  
- 
 		<div class="row">
 			<div class="col-md-12 col-md-offset-0">
- 
 				<table data-toggle="table" class="table table-striped">
 					<thead>
 						<tr>
@@ -63,38 +61,36 @@
 							<th data-sortable="true">Arrival</th>
 							<th data-sortable="true">Passengers</th>
 							<th data-sortable="true">Airline</th>
-							<th data-sortable="true">Cancelled</th>
+							<th data-sortable="true">Status</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-					<!--  list all flights ----------------------------------------------------------- -->
+					<!-- list all flights -->
 					<c:forEach items="${flights}" var="flight">
-						<tr>
+						<tr class="<c:if test="${flight.isCancelled}"><c:out value="table-warning" /></c:if>"> <!-- warning for cancelled flights -->
 							<td>${flight.flightId}</td>
 							<td>${flight.aircraft}</td>
 							<td>${flight.origin}</td>
 							<td>${flight.destination}</td>
-							<td><fmt:formatDate value="${flight.departure}" pattern="dd.MM.yyyy hh:mm"/></td>
-							<td><fmt:formatDate value="${flight.arrival}" pattern="dd.MM.yyyy hh:mm"/></td>
+							<td><fmt:formatDate value="${flight.departure}" pattern="dd.MM.yyyy HH:mm"/></td>
+							<td><fmt:formatDate value="${flight.arrival}" pattern="dd.MM.yyyy HH:mm"/></td><!-- Z for timezone -->
 							<td>${flight.numberOfPassengers}</td>
 							<td>${flight.airline}</td>
-							<td>${flight.isCancelled}</td>
-
+							<td><c:if test="${flight.isCancelled}"><c:out value="Cancelled"/></c:if></td>
 							<td>
 								<a href="editFlight?flightId=${flight.flightId}" class="btn btn-xs btn-success">Edit</a> 
 								<a href="deleteFlight?flightId=${flight.flightId}" class="btn btn-xs btn-danger">Delete</a>
 							</td>
 						</tr>
 					</c:forEach>
-					<!--  list all flights ----------------------------------------------------------- -->
+					<!-- list all flights -->
 					</tbody>
 				</table>
 			</div>
 		</div>
  
- 
-	</div>	<!--  End of container -->
+	</div><!-- End of container -->
  
 	<!-- JS for Bootstrap -->
 	<%@include file="includes/bootstrapJs.jsp"%>

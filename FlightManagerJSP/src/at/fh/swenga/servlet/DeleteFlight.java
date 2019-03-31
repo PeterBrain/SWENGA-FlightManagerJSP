@@ -38,10 +38,8 @@ public class DeleteFlight extends HttpServlet {
 		 
 		int flightId = Integer.parseInt(flightIdString);
  
-		// get the http session object for the user
 		HttpSession session = request.getSession(true);
  
-		// get the flightService out of the session
 		FlightService flightService = (FlightService) session.getAttribute("flightService");
 		flightService.remove(flightId);
  
